@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAAGAZ WORLD - Common Service Centre Balapara</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0.05;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+            animation: bgMove 15s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, -50px); }
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: var(--white);
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(245, 158, 11, 0.9)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f3f4f6" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideDown 1s ease;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: slideUp 1s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 0.95; transform: translateY(0); }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--white);
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Services Section */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .service-card ul {
+            list-style: none;
+            color: var(--text-light);
+        }
+
+        .service-card ul li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* Booking Section */
+        .booking-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5rem 2rem;
+        }
+
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .booking-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            color: var(--text-dark);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-book {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Faculty Section */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .faculty-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .faculty-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+        }
+
+        .faculty-info {
+            padding: 2rem;
+        }
+
+        .faculty-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .faculty-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .faculty-details {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .faculty-contact {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+        }
+
+        .contact-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(245, 158, 11, 0.8));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            color: white;
+        }
+
+        .contact-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .contact-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .contact-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Map Section */
+        .map-container {
+            margin-top: 3rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            height: 450px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1.5rem;
+            color: white;
+        }
+
+        .modal h2 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .close-modal {
+            padding: 1rem 3rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        /* Score Counter */
+        .score-badge {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            font-weight: 600;
+            z-index: 1000;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s ease;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid,
+            .faculty-grid,
+            .gallery-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            display: flex;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">KW</div>
+                <span>KAAGAZ WORLD</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#booking">Book Now</a></li>
+                <li><a href="#faculty">Our Team</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>🏪 KAAGAZ WORLD</h1>
+            <p>Your Trusted Common Service Centre in Balapara - G2C Services, Banking, Insurance, Travel &amp; More</p>
+            <div class="cta-buttons">
+                <a href="#booking" class="btn btn-primary">Book Service Now</a>
+                <a href="#services" class="btn btn-secondary">Explore Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number" data-target="500">0</span>
+                <span class="stat-label">Happy Customers</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="50">0</span>
+                <span class="stat-label">Services Offered</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="1000">0</span>
+                <span class="stat-label">Tasks Completed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="100">0</span>
+                <span class="stat-label">Satisfaction Rate</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Complete digital solutions under one roof</p>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🏛️</div>
+                <h3>G2C Services</h3>
+                <ul>
+                    <li>Public Grievances</li>
+                    <li>Online Applications</li>
+                    <li>e-District Services</li>
+                    <li>Income Certificate</li>
+                    <li>PRC Certificate</li>
+                    <li>Caste Certificate</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">📄</div>
+                <h3>Documentation</h3>
+                <ul>
+                    <li>PAN Card Apply</li>
+                    <li>Aadhaar Card Apply</li>
+                    <li>Aadhaar Update</li>
+                    <li>Voter ID Services</li>
+                    <li>Ration Card</li>
+                    <li>All Government Docs</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🏦</div>
+                <h3>Banking Services</h3>
+                <ul>
+                    <li>Account Opening</li>
+                    <li>Deposit &amp; Withdrawal</li>
+                    <li>Money Transfer</li>
+                    <li>DigiPay (AEPS)</li>
+                    <li>Loan EMI Payment</li>
+                    <li>Balance Enquiry</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🛡️</div>
+                <h3>Insurance Services</h3>
+                <ul>
+                    <li>Vehicle Insurance</li>
+                    <li>Life Insurance</li>
+                    <li>Health Insurance</li>
+                    <li>Farmer Insurance</li>
+                    <li>Cattle Insurance</li>
+                    <li>Policy Renewal</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">✈️</div>
+                <h3>Travel Services</h3>
+                <ul>
+                    <li>Train Ticket Booking</li>
+                    <li>Hotel Booking</li>
+                    <li>Bus Booking</li>
+                    <li>Flight Booking</li>
+                    <li>Tour Packages</li>
+                    <li>Travel Insurance</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🖨️</div>
+                <h3>Printing Services</h3>
+                <ul>
+                    <li>All Types of Printing</li>
+                    <li>PVC Card Print</li>
+                    <li>Photo Printing</li>
+                    <li>Document Scanning</li>
+                    <li>Binding Services</li>
+                    <li>Lamination</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">📱</div>
+                <h3>Recharge &amp; Bills</h3>
+                <ul>
+                    <li>Mobile Recharge</li>
+                    <li>DTH Recharge</li>
+                    <li>Electricity Bill</li>
+                    <li>Water Bill</li>
+                    <li>Gas Bill Payment</li>
+                    <li>All Bill Payments</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>Web Development</h3>
+                <ul>
+                    <li>Website Design</li>
+                    <li>Web Development</li>
+                    <li>App Design</li>
+                    <li>Software Engineering</li>
+                    <li>E-commerce Sites</li>
+                    <li>Custom Solutions</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking-section" id="booking">
+        <div class="booking-container">
+            <h2 class="section-title" style="color: white;">Book Your Service</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Select your service and preferred staff member</p>
+            
+            <form class="booking-form" id="bookingForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Select Service *</label>
+                        <select id="service" name="service" required>
+                            <option value="">Choose a service</option>
+                            <option value="G2C Services">G2C Services (Certificates, e-District)</option>
+                            <option value="Documentation">Documentation (PAN, Aadhaar)</option>
+                            <option value="Banking">Banking Services</option>
+                            <option value="Insurance">Insurance Services</option>
+                            <option value="Travel">Travel Booking</option>
+                            <option value="Printing">Printing &amp; Scanning</option>
+                            <option value="Recharge">Recharge &amp; Bill Payment</option>
+                            <option value="Web Development">Web Development</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="staff">Preferred Staff *</label>
+                        <select id="staff" name="staff" required>
+                            <option value="">Select staff member</option>
+                            <option value="Arshid Nice Mia">Arshid Nice Mia (All Services + Web Dev)</option>
+                            <option value="Sohidul Islam">Sohidul Islam (All CSC Services)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Preferred Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Details</label>
+                    <textarea id="message" name="message" placeholder="Tell us more about your requirements..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-book">📅 Book Appointment</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Faculty Section -->
+    <section class="section" id="faculty">
+        <h2 class="section-title">Our Expert Team</h2>
+        <p class="section-subtitle">Experienced professionals ready to serve you</p>
+        
+        <div class="faculty-grid">
+            <div class="faculty-card">
+                <div class="faculty-image">👨‍💼</div>
+                <div class="faculty-info">
+                    <h3>Arshid Nice Mia</h3>
+                    <div class="faculty-role">Senior Service Executive &amp; Web Developer</div>
+                    <div class="faculty-details">
+                        <p>Specialized in all CSC services including G2C, banking, insurance, and travel services. Also handles complete web development, app design, and software engineering projects.</p>
+                    </div>
+                    <div class="faculty-contact">
+                        <div class="contact-item">
+                            <span class="contact-icon">📞</span>
+                            <a href="tel:6002948637">6002948637</a>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">💬</span>
+                            <a href="https://wa.me/916002948637" target="_blank">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faculty-card">
+                <div class="faculty-image">👨‍💼</div>
+                <div class="faculty-info">
+                    <h3>Sohidul Islam</h3>
+                    <div class="faculty-role">Service Executive</div>
+                    <div class="faculty-details">
+                        <p>Expert in handling all CSC services including documentation, banking services, insurance, printing, recharge and bill payments. Dedicated to providing quick and efficient service.</p>
+                    </div>
+                    <div class="faculty-contact">
+                        <div class="contact-item">
+                            <span class="contact-icon">📞</span>
+                            <a href="tel:9678151772">9678151772</a>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">💬</span>
+                            <a href="https://wa.me/919678151772" target="_blank">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section" id="gallery">
+        <h2 class="section-title">Our Shop Gallery</h2>
+        <p class="section-subtitle">A glimpse of our modern facility</p>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🏪</div>
+                <div class="gallery-caption">
+                    <h4>Shop Front View</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">💻</div>
+                <div class="gallery-caption">
+                    <h4>Work Area</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🖨️</div>
+                <div class="gallery-caption">
+                    <h4>Printing Section</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">📋</div>
+                <div class="gallery-caption">
+                    <h4>Customer Service Area</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🖥️</div>
+                <div class="gallery-caption">
+                    <h4>Digital Services</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">👥</div>
+                <div class="gallery-caption">
+                    <h4>Our Team at Work</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Visit us or reach out for any queries</p>
+        
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-card-icon">📍</div>
+                <h3>Our Location</h3>
+                <p>Common Service Center, Balapara<br>
+                Salbari Road, Jogighopa<br>
+                Bongaigaon, Assam 783388</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-card-icon">📞</div>
+                <h3>Call Us</h3>
+                <p>Arshid: <a href="tel:6002948637">6002948637</a><br>
+                Sohidul: <a href="tel:9678151772">9678151772</a></p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-card-icon">✉️</div>
+                <h3>Email Us</h3>
+                <p><a href="mailto:cscbalapara@gmail.com">cscbalapara@gmail.com</a></p>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div>📍</div>
+                <p style="font-size: 1.2rem; margin-top: 1rem;">Balapara, Jogighopa, Bongaigaon</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Common+Service+Center+Balapara+Salbari+Road+Jogighopa+Bongaigaon+Assam+783388" 
+                   target="_blank" 
+                   class="btn btn-primary" 
+                   style="margin-top: 2rem;">
+                    Open in Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About KAAGAZ WORLD</h3>
+                <p>Your trusted Common Service Centre providing comprehensive digital services to the community. From government services to web development, we're here to help.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#booking">Book Now</a>
+                <a href="#faculty">Our Team</a>
+                <a href="#contact">Contact</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <a href="#services">G2C Services</a>
+                <a href="#services">Banking</a>
+                <a href="#services">Insurance</a>
+                <a href="#services">Travel Booking</a>
+                <a href="#services">Web Development</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 Balapara, Salbari Road<br>Jogighopa, Bongaigaon<br>Assam 783388</p>
+                <p>📞 6002948637 / 9678151772</p>
+                <p>✉️ cscbalapara@gmail.com</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 KAAGAZ WORLD - Common Service Centre Balapara. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">✓</div>
+            <h2>Booking Confirmed!</h2>
+            <p id="modalMessage">Your appointment has been booked successfully. We'll contact you on WhatsApp shortly.</p>
+            <button class="close-modal" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Score Badge -->
+    <div class="score-badge" id="scoreBadge">
+        👀 Visitors: <span id="scoreCount">0</span>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Navigation scroll effect
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Show/hide scroll to top button
+            const scrollTopBtn = document.getElementById('scrollTop');
+            if (currentScroll > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animated counters
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target + (element.parentElement.querySelector('.stat-label').textContent.includes('Rate') ? '%' : '+');
+                }
+            };
+
+            updateCounter();
+        }
+
+        // Intersection Observer for counters
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        if (counter.textContent === '0') {
+                            animateCounter(counter);
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Booking form submission
+        const bookingForm = document.getElementById('bookingForm');
+        const successModal = document.getElementById('successModal');
+
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(bookingForm);
+            const name = formData.get('name');
+            const phone = formData.get('phone');
+            const service = formData.get('service');
+            const staff = formData.get('staff');
+            const date = formData.get('date');
+            const message = formData.get('message') || 'No additional details';
+
+            // Determine WhatsApp number based on selected staff
+            let whatsappNumber = '';
+            let whatsappMessage = '';
+
+            if (staff === 'Arshid Nice Mia') {
+                whatsappNumber = '916002948637';
+            } else if (staff === 'Sohidul Islam') {
+                whatsappNumber = '919678151772';
+            }
+
+            // Construct WhatsApp message
+            whatsappMessage = `*New Booking Request*%0A%0A` +
+                            `Name: ${name}%0A` +
+                            `Phone: ${phone}%0A` +
+                            `Service: ${service}%0A` +
+                            `Preferred Staff: ${staff}%0A` +
+                            `Date: ${date}%0A` +
+                            `Details: ${message}%0A%0A` +
+                            `From: KAAGAZ WORLD Website`;
+
+            // Show success modal
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = `Your booking request for "${service}" has been sent to ${staff}. You will receive a WhatsApp confirmation shortly.`;
+            successModal.classList.add('active');
+
+            // Open WhatsApp (optional - uncomment if you want auto-redirect)
+            setTimeout(() => {
+                window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
+            }, 1500);
+
+            // Reset form
+            bookingForm.reset();
+
+            // Update score
+            updateScore(10);
+        });
+
+        function closeModal() {
+            successModal.classList.remove('active');
+        }
+
+        // Close modal on outside click
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                closeModal();
+            }
+        });
+
+        // Score tracking
+        let score = 0;
+        const scoreDisplay = document.getElementById('scoreCount');
+
+        function updateScore(points) {
+            score += points;
+            animateScore(score);
+        }
+
+        function animateScore(target) {
+            const current = parseInt(scoreDisplay.textContent);
+            const increment = (target - current) / 20;
+            let value = current;
+
+            const timer = setInterval(() => {
+                value += increment;
+                if ((increment > 0 && value >= target) || (increment < 0 && value <= target)) {
+                    scoreDisplay.textContent = Math.floor(target);
+                    clearInterval(timer);
+                } else {
+                    scoreDisplay.textContent = Math.floor(value);
+                }
+            }, 30);
+        }
+
+        // Track page interactions
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', () => updateScore(1));
+        });
+
+        document.querySelectorAll('.contact-card a').forEach(link => {
+            link.addEventListener('click', () => updateScore(2));
+        });
+
+        // Set minimum date to today
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize visitor count
+        let visitorCount = Math.floor(Math.random() * 50) + 150;
+        scoreDisplay.textContent = visitorCount;
+
+        // Increment visitor count periodically
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                visitorCount++;
+                animateScore(visitorCount);
+            }
+        }, 10000);
+
+        // Card hover effects
+        document.querySelectorAll('.service-card, .faculty-card, .gallery-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Page load animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+
